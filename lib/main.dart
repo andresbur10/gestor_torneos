@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'domain/standings.dart';
-import 'domain/stats.dart';
 import 'domain/models.dart';
 import 'ui/create_tournament_page.dart';
 
@@ -40,6 +39,7 @@ class MyApp extends StatelessWidget {
                   final teamsById = {for (var t in tournament.teams) t.id: t};
 
                   Navigator.push(
+                    // ignore: use_build_context_synchronously
                     context,
                     MaterialPageRoute(
                       builder: (_) => Scaffold(
