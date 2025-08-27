@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'domain/standings.dart';
 import 'domain/stats.dart';
-import 'sample_data/sample_tournament.dart';
+import 'domain/models.dart';
+import 'ui/create_tournament_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,29 +13,52 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tournament = buildSampleTournament();
-    final standings = computeStandings(tournament);
-    final scorers = computeTopScorers(tournament);
-
-    final teamsById = { for (var t in tournament.teams) t.id: t };
-    final playersById = { for (var p in tournament.players) p.id: p };
-
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Gestor de Torneos')),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              const Text('Tabla de posiciones', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              for (final row in standings)
-                Text('${teamsById[row.teamId]!.name}: ${row.points} pts (GF: ${row.gf}, GA: ${row.ga})'),
+      home: Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Gestor de Torneos')),
+          body: Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CreateTournamentPage(),
+                  ),
+                );
 
-              const SizedBox(height: 20),
-              const Text('Goleadores', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              for (final s in scorers)
-                Text('${playersById[s.playerId]!.name} - ${s.goals} goles'),
-            ],
+                if (result != null) {
+                  final tournament = Tournament(
+                    id: 'T1',
+                    name: result['name'],
+                    teams: result['teams'],
+                    players: [], // por ahora vacío
+                    matches: [],
+                  );
+
+                  final standings = computeStandings(tournament);
+                  final teamsById = {for (var t in tournament.teams) t.id: t};
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(
+                        appBar: AppBar(title: Text('Tabla de ${tournament.name}')),
+                        body: ListView(
+                          padding: const EdgeInsets.all(16),
+                          children: [
+                            const Text('Tabla de posiciones', style: TextStyle(fontSize: 20)),
+                            for (final row in standings)
+                              Text('${teamsById[row.teamId]!.name}: ${row.points} pts'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Crear torneo'),
+            ),
           ),
         ),
       ),
