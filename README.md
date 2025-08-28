@@ -1,16 +1,17 @@
-# gestor_torneos
+# Gestor de Torneos de Fútbol ⚽
 
-A new Flutter project.
+App móvil construida en Flutter para crear torneos, registrar partidos y calcular tabla de posiciones y goleadores.
 
-## Getting Started
+## Funcionalidades
+- Crear equipos y jugadores
+- Registrar eventos de partido (goles, tarjetas, autogoles)
+- Calcular standings y ranking de goleadores
+- Interfaz 100% offline
 
-This project is a starting point for a Flutter application.
+## En desarrollo
+- Persistencia local
+- Exportación de datos
+- Modo tiempo real
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Autor
+ANDRES — Aprendiendo a construir 🚀
